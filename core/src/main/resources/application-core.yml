@@ -1,0 +1,20 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://127.0.0.1:5432/cms
+    username: postgres
+    password: postgres
+    driver-class-name: org.postgresql.Driver
+  flyway:
+    enabled: false   # Default Migration disable
+  jooq:
+    sql-dialect: postgres
+  sql:
+    init:
+      mode: never
+
+logging.level:
+  root: info
+  org:
+    jooq.Constants.level: warn
+    springframework:
+      jdbc.core.JdbcTemplate: DEBUG
