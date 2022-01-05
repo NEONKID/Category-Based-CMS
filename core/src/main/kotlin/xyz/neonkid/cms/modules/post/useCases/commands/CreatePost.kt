@@ -46,7 +46,8 @@ data class CreatePostCommand (
     val isPrivate: IsPrivate,
     val publishedAt: ContentDateTime?,
     val categoryId: CategoryId?,
-    val virtualAuthorId: VirtualAuthorId?
+    val virtualAuthorId: VirtualAuthorId?,
+    val tags: Set<Tag>?
 )
 
 data class CreatePostRequest (
@@ -57,5 +58,6 @@ data class CreatePostRequest (
     val isPrivate: Boolean = true,
     val publishedAt: LocalDateTime?,
     val categoryId: Long?,
-    val virtualAuthorId: UUID?
+    val virtualAuthorId: UUID?,
+    val tags: Set<String>?
 )
