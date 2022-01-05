@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service
 import xyz.neonkid.cms.common.interfaces.PersistenceAdapter
 import xyz.neonkid.cms.modules.post.domain.aggregate.Post
 import xyz.neonkid.cms.modules.post.domain.aggregate.PostId
+import xyz.neonkid.cms.modules.post.useCases.exceptions.PostNotFoundException
 import xyz.neonkid.cms.persistence.post.PostRepository
 
 /**
@@ -14,7 +15,7 @@ import xyz.neonkid.cms.persistence.post.PostRepository
 @Service
 class PostPersistenceAdapter(private val postRepository: PostRepository) : PersistenceAdapter<Post, PostId> {
     override fun findById(id: PostId): Post {
-        val result = postRepository.findById(id.value).orElseThrow()
+        val result = postRepository.findById(id.value).orElseThrow { PostNotFoundException(id.value) }
         return PostMapper.mapToDomainEntity(result)
     }
 

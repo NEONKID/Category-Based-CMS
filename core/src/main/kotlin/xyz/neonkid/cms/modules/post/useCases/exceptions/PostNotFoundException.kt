@@ -7,4 +7,4 @@ import xyz.neonkid.cms.common.errors.NotFoundException
  * Blog : https://blog.neonkid.xyz
  * Github : https://github.com/NEONKID
  */
-class PostNotFoundException : NotFoundException("컨텐츠를 찾을 수 없습니다")
+class PostNotFoundException(val id: Long) : NotFoundException("$id 번 컨텐츠를 찾을 수 없습니다")

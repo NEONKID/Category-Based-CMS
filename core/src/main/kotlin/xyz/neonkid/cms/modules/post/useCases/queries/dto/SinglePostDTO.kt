@@ -1,4 +1,4 @@
-package xyz.neonkid.cms.modules.post.useCases.queries.dtos
+package xyz.neonkid.cms.modules.post.useCases.queries.dto
 
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize

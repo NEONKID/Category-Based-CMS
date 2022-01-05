@@ -9,10 +9,6 @@ import xyz.neonkid.cms.modules.post.domain.aggregate.PostId
 import xyz.neonkid.cms.modules.post.domain.events.CategoryAddedToPostDomainEvent
 import xyz.neonkid.cms.modules.post.domain.events.CategoryRemovedToPostDomainEvent
 import xyz.neonkid.cms.modules.post.infrastructure.persistence.PostPersistenceAdapter
-import xyz.neonkid.cms.modules.post.useCases.exceptions.PostNotFoundException
-import xyz.neonkid.cms.modules.post.useCases.queries.PostQueryRepository
-import xyz.neonkid.cms.modules.post.useCases.queries.dto.PostDTO
-import xyz.neonkid.cms.persistence.post.PostRepository
 
 /**
  * Created by Neon K.I.D on 12/31/21
