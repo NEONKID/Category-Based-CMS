@@ -8,6 +8,7 @@ import xyz.neonkid.cms.modules.author.domain.aggregate.VirtualAuthorId
 import xyz.neonkid.cms.modules.category.domain.aggregate.CategoryId
 import xyz.neonkid.cms.modules.post.domain.aggregate.Post
 import xyz.neonkid.cms.modules.post.domain.events.CategoryAddedToPostDomainEvent
+import xyz.neonkid.cms.modules.post.domain.events.VirtualAuthorAddedToPostDomainEvent
 import xyz.neonkid.cms.modules.post.domain.valueObjects.*
 import xyz.neonkid.cms.modules.post.infrastructure.persistence.PostPersistenceAdapter
 import xyz.neonkid.cms.modules.post.useCases.queries.PostQueryRepository
@@ -28,10 +29,19 @@ class CreatePostUseCase(
     private val publisher: ApplicationEventPublisher
 ) : UseCase<CreatePostCommand, PostDTO> {
     override fun invoke(command: CreatePostCommand): PostDTO {
-        val entity = postPersistenceAdapter.insert(Post.newPost(command))
+        val domain = Post.newPost(command)
+        if (domain.isPrivate.value)
+            domain.setPublishedAtNow()
+
+        val entity = postPersistenceAdapter.insert(domain)
         if (entity.categoryId != null)
             this.publisher.publishEvent(
                 CategoryAddedToPostDomainEvent(entity.id.value, entity.categoryId!!.value)
+            )
+
+        if (entity.virtualAuthorId != null)
+            this.publisher.publishEvent(
+                VirtualAuthorAddedToPostDomainEvent(entity.id.value, entity.virtualAuthorId!!.value)
             )
 
         return postQueryRepository.fetchById(entity.id.value)

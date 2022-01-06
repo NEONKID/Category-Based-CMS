@@ -4,6 +4,7 @@ import xyz.neonkid.cms.modules.author.domain.aggregate.VirtualAuthorId
 import xyz.neonkid.cms.modules.category.domain.aggregate.CategoryId
 import xyz.neonkid.cms.modules.post.domain.valueObjects.*
 import xyz.neonkid.cms.modules.post.useCases.commands.CreatePostCommand
+import java.time.LocalDateTime
 
 /**
  * Created by Neon K.I.D on 1/1/22
@@ -33,5 +34,10 @@ data class Post (
             command.categoryId,
             command.virtualAuthorId
         )
+    }
+
+    fun setPublishedAtNow() {
+        if (this.publishedAt == null)
+            this.publishedAt = ContentDateTime(LocalDateTime.now())
     }
 }
