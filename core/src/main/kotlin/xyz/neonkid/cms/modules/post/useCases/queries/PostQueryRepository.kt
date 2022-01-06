@@ -11,5 +11,7 @@ import xyz.neonkid.cms.modules.post.useCases.queries.dto.SinglePostDTO
 interface PostQueryRepository {
     fun fetchByTitle(title: String): PostDTO
     fun fetchById(id: Long): PostDTO
+    fun fetchPublicById(id: Long): PostDTO
     fun fetchAll(): MutableList<SinglePostDTO>
+    fun fetchPublicAll(): MutableList<SinglePostDTO>
 }

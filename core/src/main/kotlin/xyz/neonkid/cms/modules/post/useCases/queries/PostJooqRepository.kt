@@ -47,13 +47,20 @@ class PostJooqRepository(private val ctx: DSLContext) : PostQueryRepository {
     )
 
     override fun fetchByTitle(title: String): PostDTO =
-        ctx.select(selectPost)
-            .from(post).where(post.TITLE.eq(title)).fetchOneInto(PostDTO::class.java) ?: throw PostNotFoundException()
+        ctx.select(selectPost).from(post).where(post.TITLE.eq(title))
+            .fetchOneInto(PostDTO::class.java) ?: throw PostNotFoundException(title)
 
     override fun fetchById(id: Long): PostDTO =
-        ctx.select(selectPost)
-            .from(post).where(post.ID.eq(id)).fetchOneInto(PostDTO::class.java) ?: throw PostNotFoundException()
+        ctx.select(selectPost).from(post).where(post.ID.eq(id))
+            .fetchOneInto(PostDTO::class.java) ?: throw PostNotFoundException(id)
+
+    override fun fetchPublicById(id: Long): PostDTO =
+        ctx.select(selectPost).from(post).where(post.ID.eq(id).and(post.IS_PRIVATE.eq(false)))
+            .fetchOneInto(PostDTO::class.java) ?: throw PostNotFoundException(id)
 
     override fun fetchAll(): MutableList<SinglePostDTO> =
         ctx.select().from(post).fetch().into(SinglePostDTO::class.java)
+
+    override fun fetchPublicAll(): MutableList<SinglePostDTO> =
+        ctx.select().from(post).where(post.IS_PRIVATE.eq(false)).fetch().into(SinglePostDTO::class.java)
 }
