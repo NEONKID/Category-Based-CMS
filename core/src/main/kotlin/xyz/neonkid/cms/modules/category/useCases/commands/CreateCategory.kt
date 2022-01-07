@@ -24,10 +24,5 @@ class CreateCategoryUseCase(
         categoryQueryRepository.fetchById(categoryPersistenceAdapter.insert(Category.newCategory(command)).id.value)
 }
 
-data class CreateCategoryCommand (
-    val name: Name
-)
-
-data class CreateCategoryRequest (
-    val name: String
-)
+data class CreateCategoryCommand(val name: Name)
+data class CreateCategoryRequest(val name: String)
