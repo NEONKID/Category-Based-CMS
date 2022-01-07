@@ -4,6 +4,7 @@ import xyz.neonkid.cms.modules.author.domain.aggregate.VirtualAuthorId
 import xyz.neonkid.cms.modules.category.domain.aggregate.CategoryId
 import xyz.neonkid.cms.modules.post.domain.valueObjects.*
 import xyz.neonkid.cms.modules.post.useCases.commands.CreatePostCommand
+import xyz.neonkid.cms.modules.post.useCases.commands.SavePostCommand
 import java.time.LocalDateTime
 
 /**
@@ -34,6 +35,14 @@ data class Post (
             command.categoryId,
             command.virtualAuthorId
         )
+    }
+
+    fun updatePost(command: SavePostCommand) {
+        command.title?.let { this.title = it }
+        command.body?.let { this.body = it }
+        command.thumbnail?.let { this.thumbnail = it }
+        command.description?.let { this.description = it }
+        command.publishedAt?.let { this.publishedAt = it }
     }
 
     fun setPublishedAtNow() {
