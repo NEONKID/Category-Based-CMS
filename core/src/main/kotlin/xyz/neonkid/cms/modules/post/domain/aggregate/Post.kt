@@ -5,7 +5,9 @@ import xyz.neonkid.cms.modules.category.domain.aggregate.CategoryId
 import xyz.neonkid.cms.modules.post.domain.valueObjects.*
 import xyz.neonkid.cms.modules.post.useCases.commands.CreatePostCommand
 import xyz.neonkid.cms.modules.post.useCases.commands.SavePostCommand
+import xyz.neonkid.cms.modules.tag.domain.aggregate.TagId
 import java.time.LocalDateTime
+import java.util.stream.Collectors
 
 /**
  * Created by Neon K.I.D on 1/1/22
@@ -21,7 +23,8 @@ data class Post (
     var description: Description?,
     var publishedAt: ContentDateTime?,
     var categoryId: CategoryId?,
-    var virtualAuthorId: VirtualAuthorId?
+    var virtualAuthorId: VirtualAuthorId?,
+    var tags: Set<TagId> = setOf()
 ) {
     companion object {
         fun newPost(command: CreatePostCommand) = Post(
@@ -33,7 +36,8 @@ data class Post (
             command.description,
             command.publishedAt,
             command.categoryId,
-            command.virtualAuthorId
+            command.virtualAuthorId,
+            command.tags
         )
     }
 

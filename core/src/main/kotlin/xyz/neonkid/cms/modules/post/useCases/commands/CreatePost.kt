@@ -8,11 +8,13 @@ import xyz.neonkid.cms.modules.author.domain.aggregate.VirtualAuthorId
 import xyz.neonkid.cms.modules.category.domain.aggregate.CategoryId
 import xyz.neonkid.cms.modules.post.domain.aggregate.Post
 import xyz.neonkid.cms.modules.post.domain.events.CategoryAddedToPostDomainEvent
+import xyz.neonkid.cms.modules.post.domain.events.TagAddedToPostDomainEvent
 import xyz.neonkid.cms.modules.post.domain.events.VirtualAuthorAddedToPostDomainEvent
 import xyz.neonkid.cms.modules.post.domain.valueObjects.*
 import xyz.neonkid.cms.modules.post.infrastructure.persistence.PostPersistenceAdapter
 import xyz.neonkid.cms.modules.post.useCases.queries.PostQueryRepository
 import xyz.neonkid.cms.modules.post.useCases.queries.dto.PostDTO
+import xyz.neonkid.cms.modules.tag.domain.aggregate.TagId
 import java.time.LocalDateTime
 import java.util.*
 
@@ -30,7 +32,7 @@ class CreatePostUseCase(
 ) : UseCase<CreatePostCommand, PostDTO> {
     override fun invoke(command: CreatePostCommand): PostDTO {
         val domain = Post.newPost(command)
-        if (domain.isPrivate.value)
+        if (!domain.isPrivate.value)
             domain.setPublishedAtNow()
 
         val entity = postPersistenceAdapter.insert(domain)
@@ -43,6 +45,9 @@ class CreatePostUseCase(
             this.publisher.publishEvent(
                 VirtualAuthorAddedToPostDomainEvent(entity.id.value, entity.virtualAuthorId!!.value)
             )
+
+        for (tag in entity.tags)
+            this.publisher.publishEvent(TagAddedToPostDomainEvent(entity.id.value, tag.value))
 
         return postQueryRepository.fetchById(entity.id.value)
     }
@@ -57,7 +62,7 @@ data class CreatePostCommand (
     val publishedAt: ContentDateTime?,
     val categoryId: CategoryId?,
     val virtualAuthorId: VirtualAuthorId?,
-    val tags: Set<Tag>?
+    val tags: Set<TagId> = setOf()
 )
 
 data class CreatePostRequest (
@@ -69,5 +74,5 @@ data class CreatePostRequest (
     val publishedAt: LocalDateTime?,
     val categoryId: Long?,
     val virtualAuthorId: UUID?,
-    val tags: Set<String>?
+    val tags: Set<String> = hashSetOf()
 )

@@ -1,10 +1,11 @@
 package xyz.neonkid.cms.persistence.post
 
+import org.springframework.data.annotation.CreatedDate
 import org.springframework.data.annotation.Id
+import org.springframework.data.annotation.LastModifiedDate
 import org.springframework.data.relational.core.mapping.Column
 import org.springframework.data.relational.core.mapping.MappedCollection
 import org.springframework.data.relational.core.mapping.Table
-import org.springframework.stereotype.Component
 import java.time.LocalDateTime
 import java.util.*
 
@@ -23,11 +24,18 @@ data class PostEntity (
     val description: String?,
     @Column("published_at") val publishedAt: LocalDateTime?,
     @MappedCollection(idColumn = "post_id") val categoryId: CategoryRef?,
-    @MappedCollection(idColumn = "post_id") val virtualAuthorId: VirtualAuthorRef?
-)
+    @MappedCollection(idColumn = "post_id") val virtualAuthorId: VirtualAuthorRef?,
+    @MappedCollection(idColumn = "post_id") val tags: Set<TagRef> = hashSetOf()
+) {
+    @CreatedDate @Column("created_at") private lateinit var createdAt: LocalDateTime
+    @LastModifiedDate @Column("updated_at") private lateinit var updatedAt: LocalDateTime
+}
 
 @Table("post_category")
 data class CategoryRef(val categoryId: Long)
 
 @Table("post_virtual_author")
 data class VirtualAuthorRef(val virtualAuthorId: UUID)
+
+@Table("post_tag")
+data class TagRef(val tagName: String)

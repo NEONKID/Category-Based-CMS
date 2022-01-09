@@ -6,9 +6,12 @@ import xyz.neonkid.cms.modules.category.domain.aggregate.CategoryId
 import xyz.neonkid.cms.modules.post.domain.aggregate.Post
 import xyz.neonkid.cms.modules.post.domain.aggregate.PostId
 import xyz.neonkid.cms.modules.post.domain.valueObjects.*
+import xyz.neonkid.cms.modules.tag.domain.aggregate.TagId
 import xyz.neonkid.cms.persistence.post.CategoryRef
 import xyz.neonkid.cms.persistence.post.PostEntity
+import xyz.neonkid.cms.persistence.post.TagRef
 import xyz.neonkid.cms.persistence.post.VirtualAuthorRef
+import java.util.stream.Collectors
 
 /**
  * Created by Neon K.I.D on 12/31/21
@@ -26,7 +29,8 @@ object PostMapper : ModelMapper<Post, PostEntity> {
             model.description?.let { Description(it) },
             model.publishedAt?.let { ContentDateTime(it) },
             model.categoryId?.let { CategoryId(it.categoryId) },
-            model.virtualAuthorId?.let { VirtualAuthorId(it.virtualAuthorId) }
+            model.virtualAuthorId?.let { VirtualAuthorId(it.virtualAuthorId) },
+            model.tags.let { it.stream().map { TagId(it.tagName) }.collect(Collectors.toSet()) }
         )
 
     override fun mapToJdbcEntity(model: Post) =
@@ -35,6 +39,7 @@ object PostMapper : ModelMapper<Post, PostEntity> {
             model.thumbnail?.value, model.isPrivate.value,
             model.description?.value, model.publishedAt?.value,
             model.categoryId?.let { CategoryRef(it.value) },
-            model.virtualAuthorId?.let { VirtualAuthorRef(it.value) }
+            model.virtualAuthorId?.let { VirtualAuthorRef(it.value) },
+            model.tags.let { it.stream().map { TagRef(it.value) }.collect(Collectors.toSet()) }
         )
 }
