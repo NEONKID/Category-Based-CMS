@@ -1,5 +1,7 @@
 CREATE TABLE IF NOT EXISTS public.tag (
-    name varchar(255) not null primary key
+    name varchar(255) not null primary key,
+    created_at TIMESTAMP NOT NULL,
+    updated_at TIMESTAMP NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS public.tag_post (

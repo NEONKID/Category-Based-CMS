@@ -4,6 +4,8 @@ CREATE TABLE IF NOT EXISTS public.post (
     body TEXT,
     description VARCHAR(1024),
     is_private Boolean not null,
+    created_at TIMESTAMP NOT NULL,
+    updated_at TIMESTAMP NOT NULL,
     published_at TIMESTAMP,
     thumbnail VARCHAR(255)
 );
