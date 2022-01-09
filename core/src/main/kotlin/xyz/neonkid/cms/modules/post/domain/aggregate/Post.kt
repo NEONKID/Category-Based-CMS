@@ -28,7 +28,7 @@ data class Post (
 ) {
     companion object {
         fun newPost(command: CreatePostCommand) = Post(
-            PostId.nextId(),
+            PostId(0),
             command.title,
             command.body,
             command.thumbnail,

@@ -14,6 +14,7 @@ import xyz.neonkid.cms.persistence.category.PostRef
  */
 object CategoryMapper : ModelMapper<Category, CategoryEntity> {
     override fun mapToDomainEntity(model: CategoryEntity) = Category(CategoryId(model.id), Name(model.name))
-    override fun mapToJdbcEntity(model: Category) =
-        CategoryEntity(model.id.value, model.name.value, model.postIds.map { PostRef(it.value) }.toSet())
+    override fun mapToJdbcEntity(model: Category) = CategoryEntity(
+        model.id.value, model.name.value, model.postIds.map { PostRef(it.value) }.toSet()
+    )
 }

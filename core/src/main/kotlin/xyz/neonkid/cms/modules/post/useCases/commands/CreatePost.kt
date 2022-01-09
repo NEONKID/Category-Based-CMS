@@ -2,6 +2,7 @@ package xyz.neonkid.cms.modules.post.useCases.commands
 
 import org.springframework.context.ApplicationEventPublisher
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Propagation
 import org.springframework.transaction.annotation.Transactional
 import xyz.neonkid.cms.common.interfaces.UseCase
 import xyz.neonkid.cms.modules.author.domain.aggregate.VirtualAuthorId

@@ -1,5 +1,8 @@
+CREATE SEQUENCE IF NOT EXISTS public.post_seq start 1 increment 1;
+CREATE SEQUENCE IF NOT EXISTS public.category_seq start 1 increment 1;
+
 CREATE TABLE IF NOT EXISTS public.post (
-    id bigint not null primary key,
+    id bigint constraint post_pk not null primary key default nextval('post_seq'),
     title VARCHAR(120) not null,
     body TEXT,
     description VARCHAR(1024),
@@ -23,7 +26,7 @@ create table if not exists public.post_virtual_author (
 );
 
 create table if not exists public.category (
-    id  bigint not null primary key,
+    id  bigint constraint category_pk not null primary key default nextval('category_seq'),
     name VARCHAR(50) not null
 --     parent_id bigint references category(id)
 );

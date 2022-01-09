@@ -17,7 +17,7 @@ data class Category(
     var postIds: Set<PostId> = setOf()
 ) {
     companion object {
-        fun newCategory(command: CreateCategoryCommand) = Category(CategoryId.nextId(), command.name, setOf())
+        fun newCategory(command: CreateCategoryCommand) = Category(CategoryId(0), command.name, setOf())
     }
 
     fun addPost(command: AddPostToCategoryCommand) {

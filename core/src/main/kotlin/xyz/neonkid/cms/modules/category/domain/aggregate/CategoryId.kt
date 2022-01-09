@@ -1,8 +1,9 @@
 package xyz.neonkid.cms.modules.category.domain.aggregate
 
-import org.valiktor.functions.isNotZero
-import org.valiktor.functions.isNull
+import org.valiktor.functions.isNotNull
 import org.valiktor.functions.isPositive
+import org.valiktor.functions.isPositiveOrZero
+import org.valiktor.functions.isZero
 import org.valiktor.validate
 import xyz.neonkid.cms.core.snowflake.IdGenerator
 
@@ -14,7 +15,7 @@ import xyz.neonkid.cms.core.snowflake.IdGenerator
 data class CategoryId(val value: Long) {
     init {
         validate(this) {
-            validate(CategoryId::value).isNotZero().isPositive()
+            validate(CategoryId::value).isPositiveOrZero()
         }
     }
 

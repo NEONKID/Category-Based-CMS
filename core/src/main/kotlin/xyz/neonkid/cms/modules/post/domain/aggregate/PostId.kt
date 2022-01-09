@@ -1,7 +1,6 @@
 package xyz.neonkid.cms.modules.post.domain.aggregate
 
-import org.valiktor.functions.isNotZero
-import org.valiktor.functions.isPositive
+import org.valiktor.functions.isPositiveOrZero
 import org.valiktor.validate
 import xyz.neonkid.cms.core.snowflake.IdGenerator
 
@@ -13,7 +12,7 @@ import xyz.neonkid.cms.core.snowflake.IdGenerator
 data class PostId (val value: Long) {
     init {
         validate(this) {
-            validate(PostId::value).isNotZero().isPositive()
+            validate(PostId::value).isPositiveOrZero()
         }
     }
 
