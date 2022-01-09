@@ -41,6 +41,20 @@ data class Post (
         )
     }
 
+    fun addTags(tags: Set<TagId>) {
+        val newTags = tags.toMutableSet()
+        newTags.addAll(tags)
+
+        this.tags = newTags
+    }
+
+    fun removeTags(tags: Set<TagId>) {
+        val newTags = tags.toMutableSet()
+        newTags.removeAll(tags)
+
+        this.tags = newTags
+    }
+
     fun updatePost(command: SavePostCommand) {
         command.title?.let { this.title = it }
         command.body?.let { this.body = it }
