@@ -3,9 +3,12 @@ package xyz.neonkid.cms.persistence.post
 import org.springframework.data.annotation.CreatedDate
 import org.springframework.data.annotation.Id
 import org.springframework.data.annotation.LastModifiedDate
+import org.springframework.data.relational.core.conversion.MutableAggregateChange
 import org.springframework.data.relational.core.mapping.Column
 import org.springframework.data.relational.core.mapping.MappedCollection
 import org.springframework.data.relational.core.mapping.Table
+import org.springframework.data.relational.core.mapping.event.BeforeSaveCallback
+import xyz.neonkid.cms.core.snowflake.IdGenerator
 import java.time.LocalDateTime
 import java.util.*
 
@@ -16,7 +19,7 @@ import java.util.*
  */
 @Table("post")
 data class PostEntity (
-    @Id val id: Long,
+    @Id var id: Long,
     val title: String,
     val body: String?,
     val thumbnail: String?,
@@ -39,3 +42,10 @@ data class VirtualAuthorRef(val virtualAuthorId: UUID)
 
 @Table("post_tag")
 data class TagRef(val tagName: String)
+
+class BeforeSavePostCallback: BeforeSaveCallback<PostEntity> {
+    override fun onBeforeSave(aggregate: PostEntity, aggregateChange: MutableAggregateChange<PostEntity>): PostEntity {
+        aggregate.id = IdGenerator.nextId()
+        return aggregate
+    }
+}
