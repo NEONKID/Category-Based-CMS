@@ -1,8 +1,7 @@
-CREATE SEQUENCE IF NOT EXISTS public.post_seq start 1 increment 1;
 CREATE SEQUENCE IF NOT EXISTS public.category_seq start 1 increment 1;
 
 CREATE TABLE IF NOT EXISTS public.post (
-    id bigint constraint post_pk not null primary key default nextval('post_seq'),
+    id bigint constraint post_pk not null primary key,
     title VARCHAR(120) not null,
     body TEXT,
     description VARCHAR(1024),
