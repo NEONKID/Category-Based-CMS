@@ -15,14 +15,20 @@ repositories {
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-data-jdbc")
     implementation("org.springframework.boot:spring-boot-starter-jooq")
-    runtimeOnly("org.postgresql:postgresql")
+    implementation("org.jooq:jooq-meta:3.15.5")
+    implementation("org.postgresql:postgresql")
 
     jooqGenerator("org.postgresql:postgresql")
-    jooqGenerator("org.jooq:jooq:3.15.5")
+    jooqGenerator("org.jooq:jooq")
+    jooqGenerator("org.jooq:jooq-meta")
 
     // Flyway
     implementation("org.flywaydb:flyway-core")
     testImplementation("org.flywaydb.flyway-test-extensions:flyway-spring-test:7.0.0")
+
+    // TestContainers
+    implementation("org.testcontainers:postgresql:1.16.2")
+    testImplementation("org.testcontainers:junit-jupiter:1.16.2")
 
     implementation("org.valiktor:valiktor-core:0.12.0")
     implementation("org.valiktor:valiktor-spring:0.12.0")
@@ -34,14 +40,12 @@ dependencies {
 
 buildscript {
     configurations["classpath"].resolutionStrategy.eachDependency {
-        if (requested.group == "org.jooq") {
-            useVersion("3.15.5")
-        }
+        if (requested.group == "org.jooq") useVersion("3.15.5")
     }
 }
 
 flyway {
-    url = "jdbc:postgresql://127.0.0.1:5432/cms"
+    url = "jdbc:postgresql:13:///cms"
     user = "postgres"
     password = "postgres"
     table = "schema_versions"
@@ -59,14 +63,14 @@ jooq {
                 logging = org.jooq.meta.jaxb.Logging.WARN
                 jdbc.apply {
                     driver = "org.postgresql.Driver"
-                    url = "jdbc:postgresql://127.0.0.1:5432/cms"
+                    url = "jdbc:postgresql:13:///cms"
                     user = "postgres"
                     password = "postgres"
                 }
                 generator.apply {
                     name = "org.jooq.codegen.DefaultGenerator"
                     database.apply {
-                        name = "org.jooq.meta.postgres.PostgresDatabase"
+                        name = "xyz.neonkid.cms.generator.StandalonePostgresDatabase"
                         inputSchema = "public"
                         forcedTypes.addAll(
                             arrayOf(
