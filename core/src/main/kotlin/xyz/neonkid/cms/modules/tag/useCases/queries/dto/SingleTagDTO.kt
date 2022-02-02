@@ -5,5 +5,7 @@ package xyz.neonkid.cms.modules.tag.useCases.queries.dto
  * Blog : https://blog.neonkid.xyz
  * Github : https://github.com/NEONKID
  */
-class SingleTagDTO {
-}
+data class SingleTagDTO (
+    val name: String,
+    val publicPostCount: Int
+)

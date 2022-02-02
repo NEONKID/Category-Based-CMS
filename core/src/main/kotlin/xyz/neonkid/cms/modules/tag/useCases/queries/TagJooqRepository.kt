@@ -48,10 +48,21 @@ class TagJooqRepository(private val ctx: DSLContext): TagQueryRepository {
         )
     )
 
+    private val allPublicTag = jsonObject(
+        key("name").value(tag.NAME),
+        key("public_post_count").value(
+            field(select(count()).from(post).join(tagPost).on(post.ID.eq(tagPost.POST_ID))
+                .where(tagPost.TAG_NAME.eq(tag.NAME)).and(post.IS_PRIVATE.eq(false)))
+        )
+    )
+
     override fun fetchById(name: String): TagDTO =
         ctx.select(selectTag).from(tag)
             .where(tag.NAME.eq(name)).fetchOneInto(TagDTO::class.java) ?: throw TagNotFoundException(name)
 
     override fun fetchAll(): MutableList<SingleTagDTO> =
         ctx.select(allTag).from(tag).fetch().into(SingleTagDTO::class.java)
+
+    override fun fetchPublicAll(): MutableList<SingleTagDTO> =
+        ctx.select(allPublicTag).from(tag).fetch().into(SingleTagDTO::class.java)
 }

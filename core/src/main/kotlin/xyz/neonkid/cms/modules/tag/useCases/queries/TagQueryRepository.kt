@@ -10,5 +10,6 @@ import xyz.neonkid.cms.modules.tag.useCases.queries.dto.TagDTO
  */
 interface TagQueryRepository {
     fun fetchById(name: String): TagDTO
+    fun fetchPublicAll(): MutableList<SingleTagDTO>
     fun fetchAll(): MutableList<SingleTagDTO>
 }

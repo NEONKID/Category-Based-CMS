@@ -1,6 +1,8 @@
 package xyz.neonkid.cms.modules.category.useCases.queries
 
 import xyz.neonkid.cms.modules.category.useCases.queries.dto.CategoryDTO
+import xyz.neonkid.cms.modules.category.useCases.queries.dto.PublicCategoryDTO
+import xyz.neonkid.cms.modules.category.useCases.queries.dto.PublicSingleCategoryDTO
 import xyz.neonkid.cms.modules.category.useCases.queries.dto.SingleCategoryDTO
 
 /**
@@ -10,5 +12,7 @@ import xyz.neonkid.cms.modules.category.useCases.queries.dto.SingleCategoryDTO
  */
 interface CategoryQueryRepository {
     fun fetchById(id: Long): CategoryDTO
+    fun fetchPublicById(id: Long): PublicCategoryDTO
     fun fetchAll(): MutableList<SingleCategoryDTO>
+    fun fetchPublicAll(): MutableList<PublicSingleCategoryDTO>
 }
