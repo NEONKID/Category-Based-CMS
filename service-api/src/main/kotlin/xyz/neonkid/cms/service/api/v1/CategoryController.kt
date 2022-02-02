@@ -14,5 +14,5 @@ import xyz.neonkid.cms.modules.category.useCases.queries.CategoryQueryRepository
 class CategoryController(
     private val categoryQueryRepository: CategoryQueryRepository
 ) {
-
+    
 }
