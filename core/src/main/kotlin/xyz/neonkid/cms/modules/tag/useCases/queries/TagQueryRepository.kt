@@ -1,5 +1,7 @@
 package xyz.neonkid.cms.modules.tag.useCases.queries
 
+import xyz.neonkid.cms.modules.tag.useCases.queries.dto.PublicSingleTagDTO
+import xyz.neonkid.cms.modules.tag.useCases.queries.dto.PublicTagDTO
 import xyz.neonkid.cms.modules.tag.useCases.queries.dto.SingleTagDTO
 import xyz.neonkid.cms.modules.tag.useCases.queries.dto.TagDTO
 
@@ -10,6 +12,7 @@ import xyz.neonkid.cms.modules.tag.useCases.queries.dto.TagDTO
  */
 interface TagQueryRepository {
     fun fetchById(name: String): TagDTO
-    fun fetchPublicAll(): MutableList<SingleTagDTO>
+    fun fetchPublicByName(name: String): PublicTagDTO
+    fun fetchPublicAll(): MutableList<PublicSingleTagDTO>
     fun fetchAll(): MutableList<SingleTagDTO>
 }

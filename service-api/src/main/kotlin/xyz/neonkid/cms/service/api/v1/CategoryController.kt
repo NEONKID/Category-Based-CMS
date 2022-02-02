@@ -1,5 +1,7 @@
 package xyz.neonkid.cms.service.api.v1
 
+import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import xyz.neonkid.cms.modules.category.useCases.queries.CategoryQueryRepository
@@ -14,5 +16,9 @@ import xyz.neonkid.cms.modules.category.useCases.queries.CategoryQueryRepository
 class CategoryController(
     private val categoryQueryRepository: CategoryQueryRepository
 ) {
-    
+    @GetMapping
+    fun getCategories() = categoryQueryRepository.fetchPublicAll()
+
+    @GetMapping( "/{id}")
+    fun getCategory(@PathVariable id: Long) = categoryQueryRepository.fetchPublicById(id)
 }

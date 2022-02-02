@@ -1,5 +1,7 @@
 package xyz.neonkid.cms.service.api.v1
 
+import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import xyz.neonkid.cms.modules.tag.useCases.queries.TagQueryRepository
@@ -14,5 +16,9 @@ import xyz.neonkid.cms.modules.tag.useCases.queries.TagQueryRepository
 class TagController(
     private val tagQueryRepository: TagQueryRepository
 ) {
+    @GetMapping
+    fun getTags() = tagQueryRepository.fetchPublicAll()
 
+    @GetMapping("/{name}")
+    fun getTag(@PathVariable name: String) = tagQueryRepository.fetchPublicByName(name)
 }

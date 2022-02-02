@@ -4,6 +4,8 @@ import org.jooq.DSLContext
 import org.jooq.impl.DSL.*;
 import org.springframework.stereotype.Repository
 import xyz.neonkid.cms.modules.tag.useCases.exceptions.TagNotFoundException
+import xyz.neonkid.cms.modules.tag.useCases.queries.dto.PublicSingleTagDTO
+import xyz.neonkid.cms.modules.tag.useCases.queries.dto.PublicTagDTO
 import xyz.neonkid.cms.modules.tag.useCases.queries.dto.SingleTagDTO
 import xyz.neonkid.cms.modules.tag.useCases.queries.dto.TagDTO
 import xyz.neonkid.cms.tables.Post
@@ -63,6 +65,10 @@ class TagJooqRepository(private val ctx: DSLContext): TagQueryRepository {
     override fun fetchAll(): MutableList<SingleTagDTO> =
         ctx.select(allTag).from(tag).fetch().into(SingleTagDTO::class.java)
 
-    override fun fetchPublicAll(): MutableList<SingleTagDTO> =
-        ctx.select(allPublicTag).from(tag).fetch().into(SingleTagDTO::class.java)
+    override fun fetchPublicByName(name: String): PublicTagDTO =
+        ctx.select(allPublicTag).from(tag)
+            .where(tag.NAME.eq(name)).fetchOneInto(PublicTagDTO::class.java) ?: throw TagNotFoundException(name)
+
+    override fun fetchPublicAll(): MutableList<PublicSingleTagDTO> =
+        ctx.select(allPublicTag).from(tag).fetch().into(PublicSingleTagDTO::class.java)
 }
