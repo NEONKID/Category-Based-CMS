@@ -51,7 +51,7 @@ jooq {
                 generator.apply {
                     name = "org.jooq.codegen.DefaultGenerator"
                     database.apply {
-                        name = "xyz.neonkid.cms.generator.StandalonePostgresDatabase"
+                        name = "xyz.neonkid.cms.jooq.StandalonePostgresDatabase"
                         inputSchema = "public"
                         forcedTypes.addAll(
                             arrayOf(

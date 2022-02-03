@@ -1,4 +1,4 @@
-package xyz.neonkid.cms.core.snowflake
+package xyz.neonkid.cms.snowflake
 
 import java.time.Instant
 

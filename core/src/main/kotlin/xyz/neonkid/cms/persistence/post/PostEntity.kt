@@ -8,7 +8,7 @@ import org.springframework.data.relational.core.mapping.Column
 import org.springframework.data.relational.core.mapping.MappedCollection
 import org.springframework.data.relational.core.mapping.Table
 import org.springframework.data.relational.core.mapping.event.BeforeSaveCallback
-import xyz.neonkid.cms.core.snowflake.IdGenerator
+import xyz.neonkid.cms.snowflake.IdGenerator
 import java.time.LocalDateTime
 import java.util.*
 

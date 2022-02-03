@@ -3,11 +3,9 @@ package xyz.neonkid.cms.modules.author.useCases.queries
 import org.jooq.DSLContext
 import org.jooq.impl.DSL.*;
 import org.springframework.stereotype.Repository
-import xyz.neonkid.cms.generator.StandalonePostgresDatabase
 import xyz.neonkid.cms.modules.author.useCases.exceptions.VirtualAuthorNotFoundException
 import xyz.neonkid.cms.modules.author.useCases.queries.dto.SingleVirtualAuthorDTO
 import xyz.neonkid.cms.modules.author.useCases.queries.dto.VirtualAuthorDTO
-import xyz.neonkid.cms.modules.post.useCases.queries.dto.PostDTO
 import xyz.neonkid.cms.tables.VirtualAuthor
 import xyz.neonkid.cms.tables.VirtualAuthorPost
 import java.util.*

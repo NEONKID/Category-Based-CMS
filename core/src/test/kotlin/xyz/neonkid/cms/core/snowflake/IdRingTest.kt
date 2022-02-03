@@ -3,6 +3,8 @@ package xyz.neonkid.cms.core.snowflake
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
+import xyz.neonkid.cms.snowflake.IdRing
+import xyz.neonkid.cms.snowflake.Snowflake
 
 internal class IdRingTest {
     @Test

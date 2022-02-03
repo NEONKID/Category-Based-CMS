@@ -5,7 +5,7 @@ import org.valiktor.functions.isPositive
 import org.valiktor.functions.isPositiveOrZero
 import org.valiktor.functions.isZero
 import org.valiktor.validate
-import xyz.neonkid.cms.core.snowflake.IdGenerator
+import xyz.neonkid.cms.snowflake.IdGenerator
 
 /**
  * Created by Neon K.I.D on 1/2/22

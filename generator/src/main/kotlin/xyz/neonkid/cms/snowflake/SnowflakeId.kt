@@ -1,4 +1,4 @@
-package xyz.neonkid.cms.core.snowflake
+package xyz.neonkid.cms.snowflake
 
 /**
  * Created by Neon K.I.D on 1/2/22
