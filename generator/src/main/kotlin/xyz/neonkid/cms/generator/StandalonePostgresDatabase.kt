@@ -1,4 +1,4 @@
-package generator
+package xyz.neonkid.cms.generator
 
 import org.flywaydb.core.Flyway
 import org.jooq.DSLContext
