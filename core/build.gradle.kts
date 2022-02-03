@@ -15,20 +15,16 @@ repositories {
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-data-jdbc")
     implementation("org.springframework.boot:spring-boot-starter-jooq")
-    implementation("org.jooq:jooq-meta:3.15.5")
-    implementation("org.postgresql:postgresql")
+    implementation(project(":generator"))
 
     jooqGenerator("org.postgresql:postgresql")
-    jooqGenerator("org.jooq:jooq")
-    jooqGenerator("org.jooq:jooq-meta")
+    jooqGenerator(project(":generator"))
 
     // Flyway
-    implementation("org.flywaydb:flyway-core")
     testImplementation("org.flywaydb.flyway-test-extensions:flyway-spring-test:7.0.0")
 
     // TestContainers
-    implementation("org.testcontainers:postgresql:1.16.2")
-    testImplementation("org.testcontainers:junit-jupiter:1.16.2")
+    testImplementation("org.testcontainers:junit-jupiter:1.16.3")
 
     implementation("org.valiktor:valiktor-core:0.12.0")
     implementation("org.valiktor:valiktor-spring:0.12.0")
@@ -44,15 +40,6 @@ buildscript {
     }
 }
 
-flyway {
-    url = "jdbc:postgresql:13:///cms"
-    user = "postgres"
-    password = "postgres"
-    table = "schema_versions"
-    createSchemas = true
-    schemas = arrayOf("flyway")
-}
-
 jooq {
     version.set("3.15.5")
     edition.set(JooqEdition.OSS)
@@ -61,12 +48,6 @@ jooq {
         create("main") {
             jooqConfiguration.apply {
                 logging = org.jooq.meta.jaxb.Logging.WARN
-                jdbc.apply {
-                    driver = "org.postgresql.Driver"
-                    url = "jdbc:postgresql:13:///cms"
-                    user = "postgres"
-                    password = "postgres"
-                }
                 generator.apply {
                     name = "org.jooq.codegen.DefaultGenerator"
                     database.apply {
@@ -103,7 +84,6 @@ jooq {
 }
 
 tasks.named<JooqGenerate>("generateJooq") {
-    dependsOn("flywayMigrate")
     inputs.files(fileTree("src/main/resources/db/migration"))
         .withPropertyName("migration")
         .withPathSensitivity(PathSensitivity.RELATIVE)

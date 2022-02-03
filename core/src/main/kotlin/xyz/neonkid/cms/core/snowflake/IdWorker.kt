@@ -30,12 +30,9 @@ class IdWorker(
 
         if (lastTimestamp == timestamp) {
             sequence = snowflake.nextSequence(sequence)
-            if (sequence == 0L) {
+            if (sequence == 0L)
                 timestamp = tilNextMillis(lastTimestamp)
-            }
-        } else {
-            sequence = 0
-        }
+        } else sequence = 0
 
         lastTimestamp = timestamp
         return snowflake.get(timestamp, workerId, sequence)
