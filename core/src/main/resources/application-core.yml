@@ -4,6 +4,12 @@ spring:
     username: postgres
     password: postgres
     driver-class-name: org.postgresql.Driver
+
+  flyway:
+    table: schema_version
+    schemas: flyway
+    create-schemas: true
+
   jooq:
     sql-dialect: postgres
   sql:
