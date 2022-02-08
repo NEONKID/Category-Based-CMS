@@ -19,7 +19,9 @@ import xyz.neonkid.cms.tables.Post
  */
 @Repository
 class CategoryJooqRepository(private val ctx: DSLContext) : CategoryQueryRepository {
-    private val category: Category = Category.CATEGORY
+    private val category: Category = Category.CATEGORY.`as`("c1")
+    private val subCategory: Category = Category.CATEGORY.`as`("c2")
+
     private val categoryPost: CategoryPost = CategoryPost.CATEGORY_POST
     private val post: Post = Post.POST
 
@@ -43,12 +45,33 @@ class CategoryJooqRepository(private val ctx: DSLContext) : CategoryQueryReposit
         key("id").value(category.ID),
         key("name").value(category.NAME),
         key("post_count").value(
-            field(select(count()).from(post).join(categoryPost).on(post.ID.eq(categoryPost.POST_ID))
-                .where(categoryPost.CATEGORY_ID.eq(category.ID)))
+            field(select(count(post.ID)).from(post)
+                .join(categoryPost).on(post.ID.eq(categoryPost.POST_ID))
+                .join(subCategory).on(subCategory.ID.eq(categoryPost.CATEGORY_ID))
+                .where(category.ID.eq(category.ID).or(subCategory.PARENT_ID.eq(category.ID))))
         ),
         key("public_post_count").value(
-            field(select(count()).from(post).join(categoryPost).on(post.ID.eq(categoryPost.POST_ID))
-                .where(categoryPost.CATEGORY_ID.eq(category.ID)).and(post.IS_PRIVATE.eq(false)))
+            field(select(count(post.ID)).from(post)
+                .join(categoryPost).on(post.ID.eq(categoryPost.POST_ID))
+                .join(subCategory).on(subCategory.ID.eq(categoryPost.CATEGORY_ID))
+                .where(category.ID.eq(category.ID).or(subCategory.PARENT_ID.eq(category.ID))
+                    .and(post.IS_PRIVATE.eq(false))))
+        ),
+        key("children").value(
+            field(select(
+                jsonArrayAgg(jsonObject(
+                    key("id").value(subCategory.ID),
+                    key("name").value(subCategory.NAME),
+                    key("post_count").value(
+                        field(select(count()).from(post).join(categoryPost).on(post.ID.eq(categoryPost.POST_ID))
+                            .where(categoryPost.CATEGORY_ID.eq(subCategory.ID)))
+                    ),
+                    key("public_post_count").value(
+                        field(select(count()).from(post).join(categoryPost).on(post.ID.eq(categoryPost.POST_ID))
+                            .where(categoryPost.CATEGORY_ID.eq(subCategory.ID)).and(post.IS_PRIVATE.eq(false)))
+                    )
+                ))
+            ).from(subCategory).where(subCategory.PARENT_ID.eq(category.ID)))
         )
     )
 
@@ -86,8 +109,8 @@ class CategoryJooqRepository(private val ctx: DSLContext) : CategoryQueryReposit
             .where(category.ID.eq(id)).fetchOneInto(PublicCategoryDTO::class.java) ?: throw CategoryNotFoundException(id)
 
     override fun fetchAll(): MutableList<SingleCategoryDTO> =
-        ctx.select(allCategory).from(category).fetch().into(SingleCategoryDTO::class.java)
+        ctx.select(allCategory).from(category).where(category.PARENT_ID.isNull).fetch().into(SingleCategoryDTO::class.java)
 
     override fun fetchPublicAll(): MutableList<PublicSingleCategoryDTO> =
-        ctx.select(allPublicCategory).from(category).fetch().into(PublicSingleCategoryDTO::class.java)
+        ctx.select(allPublicCategory).from(category).where(category.PARENT_ID.isNull).fetch().into(PublicSingleCategoryDTO::class.java)
 }

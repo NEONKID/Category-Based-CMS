@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import xyz.neonkid.cms.common.interfaces.UseCase
 import xyz.neonkid.cms.modules.category.domain.aggregate.Category
+import xyz.neonkid.cms.modules.category.domain.aggregate.CategoryId
 import xyz.neonkid.cms.modules.category.domain.valueObjects.Name
 import xyz.neonkid.cms.modules.category.infrastructure.persistence.CategoryPersistenceAdapter
 import xyz.neonkid.cms.modules.category.useCases.queries.CategoryQueryRepository
@@ -20,9 +21,9 @@ class CreateCategoryUseCase(
     private val categoryPersistenceAdapter: CategoryPersistenceAdapter,
     private val categoryQueryRepository: CategoryQueryRepository
 ) : UseCase<CreateCategoryCommand, CategoryDTO> {
-    override fun invoke(command: CreateCategoryCommand): CategoryDTO =
+    override fun invoke(command: CreateCategoryCommand) =
         categoryQueryRepository.fetchById(categoryPersistenceAdapter.insert(Category.newCategory(command)).id.value)
 }
 
-data class CreateCategoryCommand(val name: Name)
-data class CreateCategoryRequest(val name: String)
+data class CreateCategoryCommand(val name: Name, val parentId: CategoryId?)
+data class CreateCategoryRequest(val name: String, val parentId: Long?)

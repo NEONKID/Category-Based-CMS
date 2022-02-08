@@ -12,7 +12,7 @@ import xyz.neonkid.cms.modules.post.useCases.queries.dto.PostDTO
 data class SingleCategoryDTO @JsonCreator constructor(
     @JsonProperty("id") val id: Long,
     @JsonProperty("name") val name: String,
-    @JsonProperty("posts") val posts: List<PostDTO>,
     @JsonProperty("post_count") val postCount: Long,
-    @JsonProperty("public_post_count") val publicPostCount: Long
+    @JsonProperty("public_post_count") val publicPostCount: Long,
+    @JsonProperty("children") val children: List<SingleCategoryDTO>?,
 )

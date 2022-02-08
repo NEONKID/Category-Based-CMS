@@ -14,10 +14,12 @@ import xyz.neonkid.cms.modules.post.domain.aggregate.PostId
 data class Category(
     val id: CategoryId,
     var name: Name,
+    var parentId: CategoryId? = null,
     var postIds: Set<PostId> = setOf()
 ) {
     companion object {
-        fun newCategory(command: CreateCategoryCommand) = Category(CategoryId(0), command.name, setOf())
+        fun newCategory(command: CreateCategoryCommand) =
+            Category(CategoryId(0), command.name, command.parentId, setOf())
     }
 
     fun addPost(command: AddPostToCategoryCommand) {
