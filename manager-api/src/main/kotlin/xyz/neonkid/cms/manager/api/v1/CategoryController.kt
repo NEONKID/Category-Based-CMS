@@ -31,7 +31,8 @@ class CategoryController(
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     fun createCategory(@RequestBody request: CreateCategoryRequest) =
-        success(createCategoryUseCase.invoke(CreateCategoryCommand(Name(request.name))).id)
+        success(createCategoryUseCase.invoke(
+            CreateCategoryCommand(Name(request.name), request.parentId?.let { CategoryId(it) })).id)
 
     @PatchMapping("/{id}")
     fun changeCategoryName(@PathVariable id: Long, @RequestBody req: ChangeCategoryNameRequest) : ApiResult<String> {

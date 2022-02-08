@@ -62,6 +62,7 @@ class PostController(
                 id = PostId(id),
                 title = request.title?.let { Title(it) },
                 body = request.body?.let { Body(it) },
+                isPrivate = request.isPrivate?.let { IsPrivate(it) },
                 description = request.description?.let { Description(it) },
                 thumbnail = request.thumbnail?.let { Thumbnail(it) },
                 publishedAt = request.publishedAt?.let { ContentDateTime(it) })
