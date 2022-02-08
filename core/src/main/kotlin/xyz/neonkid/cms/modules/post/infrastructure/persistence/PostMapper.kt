@@ -30,14 +30,16 @@ object PostMapper : ModelMapper<Post, PostEntity> {
             model.publishedAt?.let { ContentDateTime(it) },
             model.categoryId?.let { CategoryId(it.categoryId) },
             model.virtualAuthorId?.let { VirtualAuthorId(it.virtualAuthorId) },
-            model.tags.let { it.stream().map { TagId(it.tagName) }.collect(Collectors.toSet()) }
+            model.tags.let { it.stream().map { TagId(it.tagName) }.collect(Collectors.toSet()) },
+            model.createdAt?.let { ContentDateTime(it) },
+            ContentDateTime(model.updatedAt)
         )
 
     override fun mapToJdbcEntity(model: Post) =
         PostEntity(
             model.id.value, model.title.value, model.body?.value,
             model.thumbnail?.value, model.isPrivate.value,
-            model.description?.value, model.publishedAt?.value,
+            model.description?.value, model.createdAt?.value, model.publishedAt?.value,
             model.categoryId?.let { CategoryRef(it.value) },
             model.virtualAuthorId?.let { VirtualAuthorRef(it.value) },
             model.tags.let { it.stream().map { TagRef(it.value) }.collect(Collectors.toSet()) }

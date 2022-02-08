@@ -25,13 +25,14 @@ data class PostEntity (
     val thumbnail: String?,
     val isPrivate: Boolean = true,
     val description: String?,
+    @CreatedDate @Column("created_at") var createdAt: LocalDateTime?,
     @Column("published_at") val publishedAt: LocalDateTime?,
     @MappedCollection(idColumn = "post_id") val categoryId: CategoryRef?,
     @MappedCollection(idColumn = "post_id") val virtualAuthorId: VirtualAuthorRef?,
     @MappedCollection(idColumn = "post_id") val tags: Set<TagRef> = hashSetOf()
 ) {
-    @CreatedDate @Column("created_at") private lateinit var createdAt: LocalDateTime
-    @LastModifiedDate @Column("updated_at") private lateinit var updatedAt: LocalDateTime
+    @LastModifiedDate @Column("updated_at") var updatedAt: LocalDateTime = LocalDateTime.MIN
+    private set
 }
 
 @Table("post_category")
@@ -45,7 +46,9 @@ data class TagRef(val tagName: String)
 
 class BeforeSavePostCallback: BeforeSaveCallback<PostEntity> {
     override fun onBeforeSave(aggregate: PostEntity, aggregateChange: MutableAggregateChange<PostEntity>): PostEntity {
-        aggregate.id = IdGenerator.nextId()
+        if (aggregate.id == 0L)
+            aggregate.id = IdGenerator.nextId()
+
         return aggregate
     }
 }

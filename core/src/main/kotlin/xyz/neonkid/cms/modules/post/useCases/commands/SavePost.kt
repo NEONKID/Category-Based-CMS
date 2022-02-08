@@ -34,6 +34,7 @@ data class SavePostCommand(
     val id: PostId,
     val title: Title?,
     val body: Body?,
+    val isPrivate: IsPrivate?,
     val description: Description?,
     val thumbnail: Thumbnail?,
     val publishedAt: ContentDateTime?
@@ -42,6 +43,7 @@ data class SavePostCommand(
 data class SavePostRequest(
     val title: String?,
     val body: String?,
+    val isPrivate: Boolean?,
     val description: String?,
     val thumbnail: String?,
     val publishedAt: LocalDateTime?,

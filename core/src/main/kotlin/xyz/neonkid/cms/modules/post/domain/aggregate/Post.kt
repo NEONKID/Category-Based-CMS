@@ -24,7 +24,9 @@ data class Post (
     var publishedAt: ContentDateTime?,
     var categoryId: CategoryId?,
     var virtualAuthorId: VirtualAuthorId?,
-    var tags: Set<TagId> = setOf()
+    var tags: Set<TagId> = setOf(),
+    var createdAt: ContentDateTime?,
+    var updatedAt: ContentDateTime?
 ) {
     companion object {
         fun newPost(command: CreatePostCommand) = Post(
@@ -37,7 +39,8 @@ data class Post (
             command.publishedAt,
             command.categoryId,
             command.virtualAuthorId,
-            command.tags
+            command.tags,
+            null, null
         )
     }
 
@@ -58,6 +61,7 @@ data class Post (
     fun updatePost(command: SavePostCommand) {
         command.title?.let { this.title = it }
         command.body?.let { this.body = it }
+        command.isPrivate?.let { this.isPrivate = it }
         command.thumbnail?.let { this.thumbnail = it }
         command.description?.let { this.description = it }
         command.publishedAt?.let { this.publishedAt = it }

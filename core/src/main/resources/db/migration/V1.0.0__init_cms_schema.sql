@@ -26,8 +26,8 @@ create table if not exists public.post_virtual_author (
 
 create table if not exists public.category (
     id  bigint constraint category_pk not null primary key default nextval('category_seq'),
-    name VARCHAR(50) not null
---     parent_id bigint references category(id)
+    name VARCHAR(50) not null,
+    parent_id bigint references category(id)
 );
 
 create table if not exists public.category_post (

@@ -14,6 +14,7 @@ import xyz.neonkid.cms.modules.post.domain.aggregate.PostId
 data class CategoryEntity(
     @Id val id: Long,
     val name: String,
+    var parentId: Long?,
     @MappedCollection(idColumn = "category_id") val postIds: Set<PostRef> = hashSetOf()
 )
 
