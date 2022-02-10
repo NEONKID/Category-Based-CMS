@@ -18,10 +18,30 @@ class PostJooqRepository(private val ctx: DSLContext) : PostQueryRepository {
     private val post: Post = Post.POST
     private val postVirtualAuthor: PostVirtualAuthor = PostVirtualAuthor.POST_VIRTUAL_AUTHOR
     private val postCategory: PostCategory = PostCategory.POST_CATEGORY
-    private val category: Category = Category.CATEGORY
+    private val category: Category = Category.CATEGORY.`as`("c1")
+    private val subCategory: Category = Category.CATEGORY.`as`("c2")
     private val virtualAuthor: VirtualAuthor = VirtualAuthor.VIRTUAL_AUTHOR
 
     private val selectPost = jsonObject(
+        key("id").value(post.ID),
+        key("title").value(post.TITLE),
+        key("thumbnail").value(post.THUMBNAIL),
+        key("isPrivate").value(post.IS_PRIVATE),
+        key("description").value(post.DESCRIPTION),
+        key("published_at").value(post.PUBLISHED_AT),
+        key("category").value(
+            select(jsonObject(
+                key("id").value(category.ID),
+                key("name").value(category.NAME),
+                key("parents").value(
+                    select(jsonObject(subCategory.ID, subCategory.NAME)))
+            )).from(category).join(postCategory).on(category.ID.eq(postCategory.CATEGORY_ID))
+                .join(subCategory).on(subCategory.ID.eq(category.PARENT_ID))
+                .where(postCategory.POST_ID.eq(post.ID))
+        )
+    )
+
+    private val selectSinglePost = jsonObject(
         key("id").value(post.ID),
         key("title").value(post.TITLE),
         key("body").value(post.BODY),
@@ -40,26 +60,31 @@ class PostJooqRepository(private val ctx: DSLContext) : PostQueryRepository {
             )
         ),
         key("category").value(
-            select(jsonObject(category.ID, category.NAME))
-                .from(category).join(postCategory).on(category.ID.eq(postCategory.CATEGORY_ID))
+            select(jsonObject(
+                key("id").value(category.ID),
+                key("name").value(category.NAME),
+                key("parents").value(
+                    select(jsonObject(subCategory.ID, subCategory.NAME)))
+            )).from(category).join(postCategory).on(category.ID.eq(postCategory.CATEGORY_ID))
+                .join(subCategory).on(subCategory.ID.eq(category.PARENT_ID))
                 .where(postCategory.POST_ID.eq(post.ID))
         )
     )
 
     override fun fetchByTitle(title: String): PostDTO =
-        ctx.select(selectPost).from(post).where(post.TITLE.eq(title))
+        ctx.select(selectSinglePost).from(post).where(post.TITLE.eq(title))
             .fetchOneInto(PostDTO::class.java) ?: throw PostNotFoundException(title)
 
     override fun fetchById(id: Long): PostDTO =
-        ctx.select(selectPost).from(post).where(post.ID.eq(id))
+        ctx.select(selectSinglePost).from(post).where(post.ID.eq(id))
             .fetchOneInto(PostDTO::class.java) ?: throw PostNotFoundException(id)
 
     override fun fetchPublicById(id: Long): PostDTO =
-        ctx.select(selectPost).from(post).where(post.ID.eq(id).and(post.IS_PRIVATE.eq(false)))
+        ctx.select(selectSinglePost).from(post).where(post.ID.eq(id).and(post.IS_PRIVATE.eq(false)))
             .fetchOneInto(PostDTO::class.java) ?: throw PostNotFoundException(id)
 
     override fun fetchAll(): MutableList<SinglePostDTO> =
-        ctx.select().from(post).fetch().into(SinglePostDTO::class.java)
+        ctx.select(selectPost).from(post).fetch().into(SinglePostDTO::class.java)
 
     override fun fetchPublicAll(): MutableList<SinglePostDTO> =
         ctx.select().from(post).where(post.IS_PRIVATE.eq(false)).fetch().into(SinglePostDTO::class.java)

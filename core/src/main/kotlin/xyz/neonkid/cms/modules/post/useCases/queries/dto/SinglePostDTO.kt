@@ -3,6 +3,7 @@ package xyz.neonkid.cms.modules.post.useCases.queries.dto
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer
+import xyz.neonkid.cms.modules.post.domain.valueObjects.Category
 import java.time.LocalDateTime
 
 /**
@@ -13,7 +14,7 @@ import java.time.LocalDateTime
 data class SinglePostDTO (
     @JsonProperty("id") val id: Long,
     @JsonProperty("title") val title: String,
-    @JsonProperty("body") val body: String,
+    @JsonProperty("category") val category: Category?,
     @JsonProperty("thumbnail") val thumbnail: String?,
     @JsonProperty("isPrivate") val isPrivate: Boolean,
     @JsonProperty("description") val description: String?,

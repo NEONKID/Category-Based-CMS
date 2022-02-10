@@ -11,5 +11,6 @@ import xyz.neonkid.cms.modules.category.domain.aggregate.CategoryId
  */
 data class Category @JsonCreator constructor(
     @JsonProperty("id") val id: Long,
-    @JsonProperty("name") val name: String
+    @JsonProperty("name") val name: String,
+    @JsonProperty("parents") val parents: Category?
 )
