@@ -21,7 +21,7 @@ import java.util.Date
 @Component
 class JwtTokenUtils {
     @Value("\${spring.jwt.algorithm}") private val algorithm = "HS256"
-    @Value("\${spring.jwt.secret}") private val secret = "secret-key"
+    @Value("\${spring.jwt.secret}") private val secret = "nk-cms"
 
     fun encode(payload: Map<String, Any>, seconds: Int) = Jwts.builder()
         .setHeader(makeHeader())

@@ -2,8 +2,6 @@ spring:
   jwt:
     algorithm: HS256
     secret: nk-cms
-    expire-second: 604800
-    refresh-expire-second: 129600
 
   profiles:
     include:
