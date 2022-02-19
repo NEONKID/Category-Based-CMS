@@ -6,6 +6,7 @@ import xyz.neonkid.cms.modules.post.domain.valueObjects.*
 import xyz.neonkid.cms.modules.post.useCases.commands.CreatePostCommand
 import xyz.neonkid.cms.modules.post.useCases.commands.SavePostCommand
 import xyz.neonkid.cms.modules.tag.domain.aggregate.TagId
+import xyz.neonkid.cms.modules.user.domain.aggregate.UserId
 import java.time.LocalDateTime
 import java.util.stream.Collectors
 
@@ -23,6 +24,7 @@ data class Post (
     var description: Description?,
     var publishedAt: ContentDateTime?,
     var categoryId: CategoryId?,
+    val userId: UserId,
     var virtualAuthorId: VirtualAuthorId?,
     var tags: Set<TagId> = setOf(),
     var createdAt: ContentDateTime?,
@@ -38,6 +40,7 @@ data class Post (
             command.description,
             command.publishedAt,
             command.categoryId,
+            command.userId,
             command.virtualAuthorId,
             command.tags,
             null, null

@@ -7,10 +7,8 @@ import xyz.neonkid.cms.modules.post.domain.aggregate.Post
 import xyz.neonkid.cms.modules.post.domain.aggregate.PostId
 import xyz.neonkid.cms.modules.post.domain.valueObjects.*
 import xyz.neonkid.cms.modules.tag.domain.aggregate.TagId
-import xyz.neonkid.cms.persistence.post.CategoryRef
-import xyz.neonkid.cms.persistence.post.PostEntity
-import xyz.neonkid.cms.persistence.post.TagRef
-import xyz.neonkid.cms.persistence.post.VirtualAuthorRef
+import xyz.neonkid.cms.modules.user.domain.aggregate.UserId
+import xyz.neonkid.cms.persistence.post.*
 import java.util.stream.Collectors
 
 /**
@@ -29,6 +27,7 @@ object PostMapper : ModelMapper<Post, PostEntity> {
             model.description?.let { Description(it) },
             model.publishedAt?.let { ContentDateTime(it) },
             model.categoryId?.let { CategoryId(it.categoryId) },
+            UserId(model.userId.userId),
             model.virtualAuthorId?.let { VirtualAuthorId(it.virtualAuthorId) },
             model.tags.let { it.stream().map { TagId(it.tagName) }.collect(Collectors.toSet()) },
             model.createdAt?.let { ContentDateTime(it) },
@@ -41,6 +40,7 @@ object PostMapper : ModelMapper<Post, PostEntity> {
             model.thumbnail?.value, model.isPrivate.value,
             model.description?.value, model.createdAt?.value, model.publishedAt?.value,
             model.categoryId?.let { CategoryRef(it.value) },
+            UserRef(model.userId.value),
             model.virtualAuthorId?.let { VirtualAuthorRef(it.value) },
             model.tags.let { it.stream().map { TagRef(it.value) }.collect(Collectors.toSet()) }
         )

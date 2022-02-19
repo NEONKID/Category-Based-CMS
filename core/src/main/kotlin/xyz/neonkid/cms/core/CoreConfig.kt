@@ -13,7 +13,7 @@ import xyz.neonkid.cms.core.jdbc.JdbcConfig
  * Github : https://github.com/NEONKID
  */
 @Configuration
-@ComponentScan(basePackages = ["xyz.neonkid.cms.modules"])
+@ComponentScan(basePackages = ["xyz.neonkid.cms.common.errors", "xyz.neonkid.cms.modules"])
 @EnableJdbcAuditing
 @EnableJdbcRepositories(value = ["xyz.neonkid.cms.core", "xyz.neonkid.cms.persistence"])
 @Import(JdbcConfig::class)
