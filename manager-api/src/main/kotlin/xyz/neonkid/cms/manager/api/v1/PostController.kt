@@ -3,6 +3,10 @@ package xyz.neonkid.cms.manager.api.v1
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
 import xyz.neonkid.cms.core.utils.*
+import xyz.neonkid.cms.manager.core.interceptor.Permission
+import xyz.neonkid.cms.manager.core.interceptor.PermissionRole
+import xyz.neonkid.cms.manager.core.resolver.CurrentUser
+import xyz.neonkid.cms.manager.core.resolver.UserInfo
 import xyz.neonkid.cms.modules.author.domain.aggregate.VirtualAuthorId
 import xyz.neonkid.cms.modules.category.domain.aggregate.CategoryId
 import xyz.neonkid.cms.modules.post.domain.aggregate.PostId
@@ -10,6 +14,7 @@ import xyz.neonkid.cms.modules.post.domain.valueObjects.*
 import xyz.neonkid.cms.modules.post.useCases.commands.*
 import xyz.neonkid.cms.modules.post.useCases.queries.PostQueryRepository
 import xyz.neonkid.cms.modules.tag.domain.aggregate.TagId
+import xyz.neonkid.cms.modules.user.domain.aggregate.UserId
 import java.util.*
 import java.util.stream.Collectors
 
@@ -38,9 +43,10 @@ class PostController(
     @GetMapping("/{id}")
     fun getPostById(@PathVariable id: Long) = success(postQueryRepository.fetchById(id))
 
+    @Permission(PermissionRole.MEMBER)
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    fun addPost(@RequestBody request: CreatePostRequest): ApiResult<Long> {
+    fun addPost(@RequestBody request: CreatePostRequest, @CurrentUser userInfo: UserInfo): ApiResult<Long> {
         val dto = createPostUseCase.invoke(CreatePostCommand(
             title = Title(request.title),
             body = request.body?.let { Body(it) },
@@ -48,6 +54,7 @@ class PostController(
             thumbnail = request.thumbnail?.let { Thumbnail(it) },
             publishedAt = request.publishedAt?.let { ContentDateTime(it) },
             categoryId = request.categoryId?.let { CategoryId(it) },
+            userId = UserId(userInfo.id),
             virtualAuthorId = request.virtualAuthorId?.let { VirtualAuthorId(it) },
             isPrivate = IsPrivate(request.isPrivate),
             tags = request.tags.let { it.stream().map { TagId(it) }.collect(Collectors.toSet()) }
