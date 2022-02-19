@@ -5,4 +5,4 @@ package xyz.neonkid.cms.common.errors
  * Blog : https://blog.neonkid.xyz
  * Github : https://github.com/NEONKID
  */
-class ErrorResponse (val status: Int, val message: String)
+class NKCMSExceptionResponse (val status: Int, val message: String)
