@@ -25,6 +25,8 @@ data class UserEntity (
 ) {
     @LastModifiedDate @Column("updated_at") var updatedAt: LocalDateTime = LocalDateTime.MIN
     private set
+
+    var deletedAt: LocalDateTime? = null
 }
 
 class BeforeSaveUserCallback: BeforeSaveCallback<UserEntity> {
@@ -33,14 +35,5 @@ class BeforeSaveUserCallback: BeforeSaveCallback<UserEntity> {
             aggregate.id = IdGenerator.nextId()
 
         return aggregate
-    }
-}
-
-class BeforeDeleteUserCallback: BeforeDeleteCallback<UserEntity> {
-    override fun onBeforeDelete(
-        aggregate: UserEntity,
-        aggregateChange: MutableAggregateChange<UserEntity>
-    ): UserEntity {
-        TODO("Not yet implemented")
     }
 }

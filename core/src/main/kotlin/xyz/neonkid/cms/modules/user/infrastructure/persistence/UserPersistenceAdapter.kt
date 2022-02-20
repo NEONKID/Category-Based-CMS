@@ -6,6 +6,7 @@ import xyz.neonkid.cms.modules.user.domain.aggregate.User
 import xyz.neonkid.cms.modules.user.domain.aggregate.UserId
 import xyz.neonkid.cms.modules.user.useCases.exceptions.UserNotFoundException
 import xyz.neonkid.cms.persistence.user.UserRepository
+import java.time.LocalDateTime
 
 /**
  * Created by Neon K.I.D on 2/19/22
@@ -30,6 +31,9 @@ class UserPersistenceAdapter(private val userRepository: UserRepository) : Persi
     }
 
     override fun deleteById(id: UserId) {
-        userRepository.deleteById(id.value)
+        val result = userRepository.findById(id.value).orElseThrow { UserNotFoundException(id.value) }
+        result.deletedAt = LocalDateTime.now()
+
+        userRepository.update(result)
     }
 }

@@ -7,7 +7,10 @@ create table if not exists public.post_user (
 create table if not exists public.users (
     id bigint NOT NULL PRIMARY KEY,
     email varchar(128) NOT NULL,
-    nickname varchar(20) NOT NULL
+    nickname varchar(20) NOT NULL,
+    created_at TIMESTAMP NOT NULL,
+    updated_at TIMESTAMP NOT NULL,
+    deleted_at TIMESTAMP
 );
 
 create table if not exists public.user_post (
