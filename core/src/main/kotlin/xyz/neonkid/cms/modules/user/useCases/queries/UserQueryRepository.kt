@@ -9,4 +9,5 @@ import xyz.neonkid.cms.modules.user.useCases.queries.dto.UserDTO
  */
 interface UserQueryRepository {
     fun fetchById(id: Long): UserDTO
+    fun fetchAll(): MutableList<UserDTO>
 }
