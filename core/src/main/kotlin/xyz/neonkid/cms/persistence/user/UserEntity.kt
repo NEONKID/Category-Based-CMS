@@ -3,8 +3,12 @@ package xyz.neonkid.cms.persistence.user
 import org.springframework.data.annotation.CreatedDate
 import org.springframework.data.annotation.Id
 import org.springframework.data.annotation.LastModifiedDate
+import org.springframework.data.relational.core.conversion.MutableAggregateChange
 import org.springframework.data.relational.core.mapping.Column
 import org.springframework.data.relational.core.mapping.Table
+import org.springframework.data.relational.core.mapping.event.BeforeDeleteCallback
+import org.springframework.data.relational.core.mapping.event.BeforeSaveCallback
+import xyz.neonkid.cms.snowflake.IdGenerator
 import java.time.LocalDateTime
 
 /**
@@ -16,8 +20,27 @@ import java.time.LocalDateTime
 data class UserEntity (
     @Id var id: Long,
     val email: String,
-    val nickname: String
+    val nickname: String,
+    @CreatedDate @Column("created_at") var createdAt: LocalDateTime?
 ) {
-    @CreatedDate @Column("created_at") private lateinit var createdAt: LocalDateTime
-    @LastModifiedDate @Column("updated_at") private lateinit var updatedAt: LocalDateTime
+    @LastModifiedDate @Column("updated_at") var updatedAt: LocalDateTime = LocalDateTime.MIN
+    private set
+}
+
+class BeforeSaveUserCallback: BeforeSaveCallback<UserEntity> {
+    override fun onBeforeSave(aggregate: UserEntity, aggregateChange: MutableAggregateChange<UserEntity>): UserEntity {
+        if (aggregate.id == 0L)
+            aggregate.id = IdGenerator.nextId()
+
+        return aggregate
+    }
+}
+
+class BeforeDeleteUserCallback: BeforeDeleteCallback<UserEntity> {
+    override fun onBeforeDelete(
+        aggregate: UserEntity,
+        aggregateChange: MutableAggregateChange<UserEntity>
+    ): UserEntity {
+        TODO("Not yet implemented")
+    }
 }

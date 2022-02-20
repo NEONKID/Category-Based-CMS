@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Configuration
 import org.springframework.data.jdbc.repository.config.AbstractJdbcConfiguration
 import xyz.neonkid.cms.persistence.author.BeforeSaveAuthorCallback
 import xyz.neonkid.cms.persistence.post.BeforeSavePostCallback
+import xyz.neonkid.cms.persistence.user.BeforeSaveUserCallback
 
 /**
  * Created by Neon K.I.D on 1/8/22
@@ -18,4 +19,7 @@ class JdbcConfig : AbstractJdbcConfiguration() {
 
     @Bean
     fun beforeSavePostCallback() = BeforeSavePostCallback()
+
+    @Bean
+    fun beforeSaveUserCallback() = BeforeSaveUserCallback()
 }
