@@ -7,6 +7,7 @@ import xyz.neonkid.cms.common.interfaces.UseCase
 import xyz.neonkid.cms.modules.user.domain.aggregate.User
 import xyz.neonkid.cms.modules.user.domain.valueObjects.Email
 import xyz.neonkid.cms.modules.user.domain.valueObjects.NickName
+import xyz.neonkid.cms.modules.user.domain.valueObjects.Password
 import xyz.neonkid.cms.modules.user.infrastructure.persistence.UserPersistenceAdapter
 import xyz.neonkid.cms.modules.user.useCases.queries.UserQueryRepository
 import xyz.neonkid.cms.modules.user.useCases.queries.dto.UserDTO
@@ -18,7 +19,7 @@ import xyz.neonkid.cms.modules.user.useCases.queries.dto.UserDTO
  */
 @Service
 @Transactional
-class CreateUserUserCase(
+class CreateUserUseCase(
     private val userPersistenceAdapter: UserPersistenceAdapter,
     private val userQueryRepository: UserQueryRepository,
     private val publisher: ApplicationEventPublisher
@@ -33,12 +34,12 @@ class CreateUserUserCase(
 
 data class CreateUserCommand (
     val email: Email,
-    val nickname: NickName
+    val nickname: NickName,
+    val password: Password
 )
 
 data class CreateUserRequest (
     val email: String,
-    val nickname: String
-) {
-    fun toCommand() = CreateUserCommand(Email(email), NickName(nickname))
-}
+    val nickname: String,
+    val password: String
+)

@@ -8,6 +8,7 @@ create table if not exists public.users (
     id bigint NOT NULL PRIMARY KEY,
     email varchar(128) NOT NULL,
     nickname varchar(20) NOT NULL,
+    password varchar(1024) NOT NULL,
     created_at TIMESTAMP NOT NULL,
     updated_at TIMESTAMP NOT NULL,
     deleted_at TIMESTAMP
