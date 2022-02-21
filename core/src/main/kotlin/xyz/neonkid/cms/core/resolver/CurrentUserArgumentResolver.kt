@@ -1,4 +1,4 @@
-package xyz.neonkid.cms.manager.core.resolver
+package xyz.neonkid.cms.core.resolver
 
 import org.springframework.core.MethodParameter
 import org.springframework.stereotype.Component
@@ -6,7 +6,7 @@ import org.springframework.web.bind.support.WebDataBinderFactory
 import org.springframework.web.context.request.NativeWebRequest
 import org.springframework.web.method.support.HandlerMethodArgumentResolver
 import org.springframework.web.method.support.ModelAndViewContainer
-import xyz.neonkid.cms.manager.core.interceptor.AuthenticationException
+import xyz.neonkid.cms.core.interceptor.AuthenticationException
 import xyz.neonkid.cms.manager.core.utils.JwtTokenUtils
 
 /**

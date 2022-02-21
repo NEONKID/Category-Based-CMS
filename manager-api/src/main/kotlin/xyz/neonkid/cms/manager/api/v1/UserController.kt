@@ -10,10 +10,10 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestController
 import xyz.neonkid.cms.core.utils.success
-import xyz.neonkid.cms.manager.core.interceptor.Permission
-import xyz.neonkid.cms.manager.core.interceptor.PermissionRole
-import xyz.neonkid.cms.manager.core.resolver.CurrentUser
-import xyz.neonkid.cms.manager.core.resolver.UserInfo
+import xyz.neonkid.cms.core.interceptor.Permission
+import xyz.neonkid.cms.core.interceptor.PermissionRole
+import xyz.neonkid.cms.core.resolver.CurrentUser
+import xyz.neonkid.cms.core.resolver.UserInfo
 import xyz.neonkid.cms.modules.user.domain.aggregate.UserId
 import xyz.neonkid.cms.modules.user.domain.valueObjects.Email
 import xyz.neonkid.cms.modules.user.domain.valueObjects.NickName
@@ -24,19 +24,29 @@ import xyz.neonkid.cms.modules.user.useCases.queries.UserQueryRepository
 /**
  * Created by Neon K.I.D on 2/20/22
  * Blog : https://blog.neonkid.xyz
- * Github : https://github.com/NEONKID
+ * GitHub : https://github.com/NEONKID
  */
 @RestController
 @RequestMapping("/v1/users")
 class UserController(
     private val createUserUseCase: CreateUserUseCase,
     private val deleteUserUseCase: DeleteUserUseCase,
+    private val loginUserUseCase: LoginUserUseCase,
 
     private val userQueryRepository: UserQueryRepository
 ) {
     @Permission(PermissionRole.ADMIN)
     @GetMapping
     fun getAllUsers(@CurrentUser userInfo: UserInfo) = success(userQueryRepository.fetchAll())
+
+    @PostMapping("/login")
+    fun loginUser(@RequestBody req: LoginUserRequest) =
+        success(loginUserUseCase.invoke(
+            LoginUserCommand(
+                Email(req.email),
+                Password(req.password)
+            ))
+        )
 
     @Permission(PermissionRole.ADMIN)
     @PostMapping

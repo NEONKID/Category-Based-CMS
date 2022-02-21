@@ -1,4 +1,4 @@
-package xyz.neonkid.cms.manager.core.resolver
+package xyz.neonkid.cms.core.resolver
 
 /**
  * Created by Neon K.I.D on 2/19/22

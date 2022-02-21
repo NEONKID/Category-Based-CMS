@@ -1,4 +1,4 @@
-package xyz.neonkid.cms.manager.core.utils.exceptions
+package xyz.neonkid.cms.core.utils.exceptions
 
 import org.springframework.http.HttpStatus
 import xyz.neonkid.cms.common.errors.NKCMSException

@@ -1,9 +1,9 @@
-package xyz.neonkid.cms.manager.core.interceptor
+package xyz.neonkid.cms.core.interceptor
 
 import org.springframework.stereotype.Component
 import org.springframework.web.method.HandlerMethod
 import org.springframework.web.servlet.HandlerInterceptor
-import xyz.neonkid.cms.manager.core.utils.JwtTokenUtils
+import xyz.neonkid.cms.core.utils.JwtTokenUtils
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 

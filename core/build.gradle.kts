@@ -15,6 +15,7 @@ repositories {
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-data-jdbc")
     implementation("org.springframework.boot:spring-boot-starter-jooq")
+    implementation("io.jsonwebtoken:jjwt:0.9.1")
     implementation(project(":generator"))
 
     jooqGenerator("org.postgresql:postgresql")

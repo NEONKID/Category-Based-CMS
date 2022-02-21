@@ -3,10 +3,10 @@ package xyz.neonkid.cms.manager.api.v1
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
 import xyz.neonkid.cms.core.utils.*
-import xyz.neonkid.cms.manager.core.interceptor.Permission
-import xyz.neonkid.cms.manager.core.interceptor.PermissionRole
-import xyz.neonkid.cms.manager.core.resolver.CurrentUser
-import xyz.neonkid.cms.manager.core.resolver.UserInfo
+import xyz.neonkid.cms.core.interceptor.Permission
+import xyz.neonkid.cms.core.interceptor.PermissionRole
+import xyz.neonkid.cms.core.resolver.CurrentUser
+import xyz.neonkid.cms.core.resolver.UserInfo
 import xyz.neonkid.cms.modules.author.domain.aggregate.VirtualAuthorId
 import xyz.neonkid.cms.modules.category.domain.aggregate.CategoryId
 import xyz.neonkid.cms.modules.post.domain.aggregate.PostId

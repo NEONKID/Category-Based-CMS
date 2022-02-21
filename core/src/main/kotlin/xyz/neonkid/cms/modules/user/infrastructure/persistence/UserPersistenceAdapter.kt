@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service
 import xyz.neonkid.cms.common.interfaces.PersistenceAdapter
 import xyz.neonkid.cms.modules.user.domain.aggregate.User
 import xyz.neonkid.cms.modules.user.domain.aggregate.UserId
+import xyz.neonkid.cms.modules.user.domain.valueObjects.Email
 import xyz.neonkid.cms.modules.user.useCases.exceptions.UserNotFoundException
 import xyz.neonkid.cms.persistence.user.UserRepository
 import java.time.LocalDateTime
@@ -17,6 +18,11 @@ import java.time.LocalDateTime
 class UserPersistenceAdapter(private val userRepository: UserRepository) : PersistenceAdapter<User, UserId> {
     override fun findById(id: UserId): User {
         val result = userRepository.findById(id.value).orElseThrow { UserNotFoundException(id.value) }
+        return UserMapper.mapToDomainEntity(result)
+    }
+
+    fun findByEmail(email: Email): User {
+        val result = userRepository.findByEmail(email.value) ?: throw UserNotFoundException(email.value)
         return UserMapper.mapToDomainEntity(result)
     }
 

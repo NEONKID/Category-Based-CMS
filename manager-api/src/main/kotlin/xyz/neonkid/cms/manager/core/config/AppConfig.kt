@@ -6,8 +6,8 @@ import org.springframework.web.method.support.HandlerMethodArgumentResolver
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
 import xyz.neonkid.cms.core.CoreConfig
-import xyz.neonkid.cms.manager.core.interceptor.PermissionInterceptor
-import xyz.neonkid.cms.manager.core.resolver.CurrentUserArgumentResolver
+import xyz.neonkid.cms.core.interceptor.PermissionInterceptor
+import xyz.neonkid.cms.core.resolver.CurrentUserArgumentResolver
 
 /**
  * Created by Neon K.I.D on 2/19/22

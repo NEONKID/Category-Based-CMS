@@ -1,4 +1,4 @@
-package xyz.neonkid.cms.manager.core.interceptor
+package xyz.neonkid.cms.core.interceptor
 
 import org.springframework.http.HttpStatus
 import xyz.neonkid.cms.common.errors.NKCMSException

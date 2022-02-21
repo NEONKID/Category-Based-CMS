@@ -8,4 +8,6 @@ import xyz.neonkid.cms.core.jdbc.WithInsertAndUpdate
  * Blog : https://blog.neonkid.xyz
  * Github : https://github.com/NEONKID
  */
-interface UserRepository : CrudRepository<UserEntity, Long>, WithInsertAndUpdate<UserEntity>
+interface UserRepository : CrudRepository<UserEntity, Long>, WithInsertAndUpdate<UserEntity> {
+    fun findByEmail(email: String): UserEntity?
+}

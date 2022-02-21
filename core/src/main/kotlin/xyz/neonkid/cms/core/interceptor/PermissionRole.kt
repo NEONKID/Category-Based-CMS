@@ -1,4 +1,4 @@
-package xyz.neonkid.cms.manager.core.interceptor
+package xyz.neonkid.cms.core.interceptor
 
 /**
  * Created by Neon K.I.D on 2/19/22
