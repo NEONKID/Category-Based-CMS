@@ -10,7 +10,6 @@ import xyz.neonkid.cms.core.CoreConfig
  * Blog : https://blog.neonkid.xyz
  * Github : https://github.com/NEONKID
  */
-@Import(value = [CoreConfig::class])
 @SpringBootApplication
 class CMSManagerApplication
 

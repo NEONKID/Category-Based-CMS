@@ -28,6 +28,7 @@ data class PostEntity (
     @CreatedDate @Column("created_at") var createdAt: LocalDateTime?,
     @Column("published_at") val publishedAt: LocalDateTime?,
     @MappedCollection(idColumn = "post_id") val categoryId: CategoryRef?,
+    @MappedCollection(idColumn = "post_id") val userId: UserRef,
     @MappedCollection(idColumn = "post_id") val virtualAuthorId: VirtualAuthorRef?,
     @MappedCollection(idColumn = "post_id") val tags: Set<TagRef> = hashSetOf()
 ) {
@@ -40,6 +41,9 @@ data class CategoryRef(val categoryId: Long)
 
 @Table("post_virtual_author")
 data class VirtualAuthorRef(val virtualAuthorId: UUID)
+
+@Table("post_user")
+data class UserRef(val userId: Long)
 
 @Table("post_tag")
 data class TagRef(val tagName: String)

@@ -1,4 +1,8 @@
 spring:
+  jwt:
+    algorithm: HS256
+    secret: nk-cms
+
   profiles:
     include:
       - core

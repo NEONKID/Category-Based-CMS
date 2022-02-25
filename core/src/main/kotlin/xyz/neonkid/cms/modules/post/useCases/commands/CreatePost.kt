@@ -16,6 +16,7 @@ import xyz.neonkid.cms.modules.post.infrastructure.persistence.PostPersistenceAd
 import xyz.neonkid.cms.modules.post.useCases.queries.PostQueryRepository
 import xyz.neonkid.cms.modules.post.useCases.queries.dto.PostDTO
 import xyz.neonkid.cms.modules.tag.domain.aggregate.TagId
+import xyz.neonkid.cms.modules.user.domain.aggregate.UserId
 import java.time.LocalDateTime
 import java.util.*
 
@@ -62,6 +63,7 @@ data class CreatePostCommand (
     val isPrivate: IsPrivate,
     val publishedAt: ContentDateTime?,
     val categoryId: CategoryId?,
+    val userId: UserId,
     val virtualAuthorId: VirtualAuthorId?,
     val tags: Set<TagId> = setOf()
 )

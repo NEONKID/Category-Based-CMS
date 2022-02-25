@@ -1,6 +1,7 @@
 package xyz.neonkid.cms.modules.author.useCases.exceptions
 
-import xyz.neonkid.cms.common.errors.NotFoundException
+import org.springframework.http.HttpStatus
+import xyz.neonkid.cms.common.errors.NKCMSException
 import java.util.*
 
 /**
@@ -8,4 +9,4 @@ import java.util.*
  * Blog : https://blog.neonkid.xyz
  * Github : https://github.com/NEONKID
  */
-class VirtualAuthorNotFoundException(val id: UUID) : NotFoundException("$id 의 가상 저자를 찾을 수 없습니다")
+class VirtualAuthorNotFoundException(val id: UUID) : NKCMSException(HttpStatus.NOT_FOUND, "$id 의 가상 저자를 찾을 수 없습니다")
