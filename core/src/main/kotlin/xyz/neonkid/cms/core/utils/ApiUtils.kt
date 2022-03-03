@@ -12,22 +12,20 @@ import org.springframework.http.HttpStatus
 class ApiError internal constructor(val message: String?, val status: HttpStatus) {
     internal constructor(throwable: Throwable, status: HttpStatus) : this(throwable.message, status)
 
-    override fun toString(): String {
-        return ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE)
+    override fun toString() =
+        ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE)
             .append("message", message)
             .append("status", status)
             .toString()
-    }
 }
 
 class ApiResult<T> (@get:JvmName("isSuccess") val success: Boolean, val response: T, val error: ApiError?) {
-    override fun toString(): String {
-        return ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE)
+    override fun toString() =
+        ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE)
             .append("success", success)
             .append("response", response)
             .append("error", error)
             .toString()
-    }
 }
 
 fun <T> success(response: T) = ApiResult(true, response, null)
