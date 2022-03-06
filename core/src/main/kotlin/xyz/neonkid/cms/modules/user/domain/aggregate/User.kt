@@ -1,9 +1,6 @@
 package xyz.neonkid.cms.modules.user.domain.aggregate
 
-import xyz.neonkid.cms.modules.user.domain.valueObjects.Email
-import xyz.neonkid.cms.modules.user.domain.valueObjects.NickName
-import xyz.neonkid.cms.modules.user.domain.valueObjects.Password
-import xyz.neonkid.cms.modules.user.domain.valueObjects.UserDateTime
+import xyz.neonkid.cms.modules.user.domain.valueObjects.*
 import xyz.neonkid.cms.modules.user.useCases.commands.CreateUserCommand
 
 /**
@@ -14,8 +11,9 @@ import xyz.neonkid.cms.modules.user.useCases.commands.CreateUserCommand
 data class User (
     val id: UserId,
     val email: Email,
-    val nickName: NickName,
-    val password: Password,
+    var nickName: NickName,
+    var password: Password,
+    var isAdmin: IsAdmin,
     val createdAt: UserDateTime?,
     val updatedAt: UserDateTime?
 ) {
@@ -25,6 +23,7 @@ data class User (
             command.email,
             command.nickname,
             command.password,
+            IsAdmin(false),
             null, null
         )
     }

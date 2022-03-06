@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional
 import xyz.neonkid.cms.common.interfaces.UseCase
 import xyz.neonkid.cms.modules.user.domain.aggregate.User
 import xyz.neonkid.cms.modules.user.domain.valueObjects.Email
+import xyz.neonkid.cms.modules.user.domain.valueObjects.IsAdmin
 import xyz.neonkid.cms.modules.user.domain.valueObjects.NickName
 import xyz.neonkid.cms.modules.user.domain.valueObjects.Password
 import xyz.neonkid.cms.modules.user.infrastructure.persistence.UserPersistenceAdapter

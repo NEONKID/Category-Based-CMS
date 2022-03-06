@@ -3,10 +3,7 @@ package xyz.neonkid.cms.modules.user.infrastructure.persistence
 import xyz.neonkid.cms.common.interfaces.ModelMapper
 import xyz.neonkid.cms.modules.user.domain.aggregate.User
 import xyz.neonkid.cms.modules.user.domain.aggregate.UserId
-import xyz.neonkid.cms.modules.user.domain.valueObjects.Email
-import xyz.neonkid.cms.modules.user.domain.valueObjects.NickName
-import xyz.neonkid.cms.modules.user.domain.valueObjects.Password
-import xyz.neonkid.cms.modules.user.domain.valueObjects.UserDateTime
+import xyz.neonkid.cms.modules.user.domain.valueObjects.*
 import xyz.neonkid.cms.persistence.user.UserEntity
 
 /**
@@ -21,6 +18,7 @@ object UserMapper : ModelMapper<User, UserEntity> {
             Email(model.email),
             NickName(model.nickname),
             Password(model.password),
+            IsAdmin(model.isAdmin),
             model.createdAt?.let { UserDateTime(model.createdAt) },
             UserDateTime(model.updatedAt)
         )
@@ -31,6 +29,7 @@ object UserMapper : ModelMapper<User, UserEntity> {
             model.email.value,
             model.nickName.value,
             model.password.value,
+            model.isAdmin.value,
             model.createdAt?.value
         )
 }
