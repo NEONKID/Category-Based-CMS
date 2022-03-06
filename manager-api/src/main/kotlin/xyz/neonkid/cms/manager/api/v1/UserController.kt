@@ -3,6 +3,7 @@ package xyz.neonkid.cms.manager.api.v1
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PatchMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
@@ -32,6 +33,8 @@ class UserController(
     private val createUserUseCase: CreateUserUseCase,
     private val deleteUserUseCase: DeleteUserUseCase,
     private val loginUserUseCase: LoginUserUseCase,
+    private val assignAdminUseCase: AssignAdminUseCase,
+    private val assignMemberUseCase: AssignMemberUseCase,
 
     private val userQueryRepository: UserQueryRepository
 ) {
@@ -59,6 +62,18 @@ class UserController(
                 Password(req.password)
             ))
         )
+
+    @Permission(PermissionRole.ADMIN)
+    @PatchMapping("{userId}/admin")
+    fun assignAdmin(@PathVariable userId: Long) {
+        success(assignAdminUseCase.invoke(AssignAdminCommand(UserId(userId))))
+    }
+
+    @Permission(PermissionRole.ADMIN)
+    @PatchMapping("{userId}/member")
+    fun assignMember(@PathVariable userId: Long) {
+        success(assignMemberUseCase.invoke(AssignMemberCommand(UserId(userId))))
+    }
 
     @Permission(PermissionRole.ADMIN)
     @DeleteMapping("/{id}")

@@ -62,8 +62,12 @@ class JwtTokenUtils {
 
     fun getPayload(token: String): JwtTokenPayload {
         val claims = decode(token)
-        val userId = claims[JwtTokenPayloadKeySet.USER_ID.toString()].toString().toInt()
-        return JwtTokenPayload(userId.toLong(), false)
+
+        val userId = claims[JwtTokenPayloadKeySet.USER_ID.toString()].toString().toLong()
+        val isAdmin = claims[JwtTokenPayloadKeySet.IS_ADMIN.toString()].toString().toBoolean()
+        val refresh = claims[JwtTokenPayloadKeySet.REFRESH.toString()].toString().toBoolean()
+
+        return JwtTokenPayload(userId, isAdmin, refresh)
     }
 
     private fun makeHeader() = mapOf(
@@ -80,11 +84,12 @@ class JwtTokenUtils {
 
 data class JwtTokenPayload(
     val userId: Long,
+    val isAdmin: Boolean,
     val refresh: Boolean
 )
 
 enum class JwtTokenPayloadKeySet {
-    USER_ID, REFRESH;
+    USER_ID, IS_ADMIN, REFRESH;
 
     override fun toString() = name.lowercase()
 }

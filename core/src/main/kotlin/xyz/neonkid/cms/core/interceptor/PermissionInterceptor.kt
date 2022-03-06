@@ -27,8 +27,10 @@ class PermissionInterceptor(
         val token = extractJwtTokenFromHeader(request)
         val payload = jwtTokenUtils.getPayload(token)
 
-        if (permission.role == PermissionRole.ADMIN)
-            return true
+        if (permission.role == PermissionRole.ADMIN) {
+            if (payload.isAdmin)
+                return true
+        }
 
         throw Exception()
     }

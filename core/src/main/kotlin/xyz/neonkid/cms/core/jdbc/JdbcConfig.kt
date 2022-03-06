@@ -10,7 +10,7 @@ import xyz.neonkid.cms.persistence.user.BeforeSaveUserCallback
 /**
  * Created by Neon K.I.D on 1/8/22
  * Blog : https://blog.neonkid.xyz
- * Github : https://github.com/NEONKID
+ * GitHub : https://github.com/NEONKID
  */
 @Configuration
 class JdbcConfig : AbstractJdbcConfiguration() {

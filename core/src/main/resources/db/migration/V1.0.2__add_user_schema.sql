@@ -9,6 +9,7 @@ create table if not exists public.users (
     email varchar(128) NOT NULL,
     nickname varchar(20) NOT NULL,
     password varchar(1024) NOT NULL,
+    is_admin boolean NOT NULL,
     created_at TIMESTAMP NOT NULL,
     updated_at TIMESTAMP NOT NULL,
     deleted_at TIMESTAMP

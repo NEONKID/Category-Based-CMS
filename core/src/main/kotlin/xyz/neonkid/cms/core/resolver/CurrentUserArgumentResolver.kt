@@ -7,7 +7,7 @@ import org.springframework.web.context.request.NativeWebRequest
 import org.springframework.web.method.support.HandlerMethodArgumentResolver
 import org.springframework.web.method.support.ModelAndViewContainer
 import xyz.neonkid.cms.core.interceptor.AuthenticationException
-import xyz.neonkid.cms.manager.core.utils.JwtTokenUtils
+import xyz.neonkid.cms.core.utils.JwtTokenUtils
 
 /**
  * Created by Neon K.I.D on 2/19/22

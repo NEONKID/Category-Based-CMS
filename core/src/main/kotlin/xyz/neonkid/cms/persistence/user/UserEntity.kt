@@ -22,6 +22,7 @@ data class UserEntity (
     val email: String,
     val nickname: String,
     val password: String,
+    val isAdmin: Boolean,
     @CreatedDate @Column("created_at") var createdAt: LocalDateTime?
 ) {
     @LastModifiedDate @Column("updated_at") var updatedAt: LocalDateTime = LocalDateTime.MIN
