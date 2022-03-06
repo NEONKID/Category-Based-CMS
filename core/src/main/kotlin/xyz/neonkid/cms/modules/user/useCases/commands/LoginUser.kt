@@ -25,8 +25,8 @@ class LoginUserUseCase(
         if (user.password != command.password)
             throw IllegalArgumentException("Password is incorrect")
 
-        val accessToken = jwtTokenUtils.encode(mapOf("user_id" to user.id), 1800)
-        val refreshToken = jwtTokenUtils.encode(mapOf("user_id" to user.id), 3600 * 24)
+        val accessToken = jwtTokenUtils.encode(mapOf("user_id" to user.id, "is_admin" to user.isAdmin), 1800)
+        val refreshToken = jwtTokenUtils.encode(mapOf("user_id" to user.id, "is_admin" to user.isAdmin), 3600 * 24)
 
         return TokenDTO(accessToken, refreshToken)
     }
